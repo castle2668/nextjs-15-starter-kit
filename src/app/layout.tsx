@@ -1,7 +1,6 @@
-import theme from '@/theme'
+import { ThemeWrapper } from '@/components/ThemeWrapper'
+import { ThemeProvider } from '@/contexts/ThemeContext'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
-import CssBaseline from '@mui/material/CssBaseline'
-import { ThemeProvider } from '@mui/material/styles'
 import { Roboto } from 'next/font/google'
 
 import './globals.css'
@@ -18,9 +17,8 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="zh-TW">
       <body id="__next" className={roboto.variable}>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {props.children}
+          <ThemeProvider>
+            <ThemeWrapper>{props.children}</ThemeWrapper>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

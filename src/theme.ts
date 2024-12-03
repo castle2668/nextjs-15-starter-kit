@@ -2,7 +2,7 @@
 
 import { createTheme } from '@mui/material/styles'
 
-const theme = createTheme({
+const lightTheme = createTheme({
   cssVariables: true,
   palette: {
     mode: 'light',
@@ -10,22 +10,16 @@ const theme = createTheme({
   typography: {
     fontFamily: 'var(--font-roboto)',
   },
-  components: {
-    MuiAlert: {
-      styleOverrides: {
-        root: {
-          variants: [
-            {
-              props: { severity: 'info' },
-              style: {
-                backgroundColor: '#60a5fa',
-              },
-            },
-          ],
-        },
-      },
-    },
+})
+
+const darkTheme = createTheme({
+  cssVariables: true,
+  palette: {
+    mode: 'dark',
+  },
+  typography: {
+    fontFamily: 'var(--font-roboto)',
   },
 })
 
-export default theme
+export { lightTheme, darkTheme }
