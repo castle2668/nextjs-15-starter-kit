@@ -25,6 +25,16 @@ npm install
 npm run dev
 ```
 
+## 環境設定
+
+1. 複製 `.env.example` 到 `.env`：
+
+   ```bash
+   cp .env.example .env
+   ```
+
+2. 根據需求修改 `.env` 中的配置
+
 ## 開發指令
 
 ```bash
