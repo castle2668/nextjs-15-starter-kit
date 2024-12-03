@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js 15 Starter Kit
 
-## Getting Started
+基於 Next.js 15 的前端開發模板，整合 MUI v6 和 TailwindCSS，並配備完整的程式碼品質控制工具。
 
-First, run the development server:
+## 使用技術
+
+- Next.js 15.0.3 + React 18
+- Material-UI 6.1.9
+- TailwindCSS 3.4.1
+- TypeScript 5.x
+- ESLint + Prettier
+- Husky + lint-staged
+
+## 快速開始
+
+安裝依賴：
+
+```bash
+npm install
+```
+
+啟動開發環境（使用 Turbopack）：
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 開發指令
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run dev          # 開發環境
+npm run build        # 建置專案
+npm run start        # 執行產品環境
+npm run lint         # 程式碼檢查
+npm run format       # 格式化程式碼
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Git 提交規範
 
-## Learn More
+本專案使用 [Husky](https://typicode.github.io/husky/) 和 [lint-staged](https://github.com/okonet/lint-staged) 來確保程式碼品質：
 
-To learn more about Next.js, take a look at the following resources:
+- **Husky**：在 Git 提交時自動運行腳本
+- **lint-staged**：只檢查和格式化暫存區的文件
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+提交程式碼時會自動執行：
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- JS/TS 文件：ESLint 檢查 + Prettier 格式化
+- 其他文件：Prettier 格式化
 
-## Deploy on Vercel
+## 參考文件
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [Next.js](https://nextjs.org/docs)
+- [MUI](https://mui.com/material-ui/)
+- [TailwindCSS](https://tailwindcss.com/docs)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 部署
+
+建議使用 [Vercel](https://vercel.com) 部署。
