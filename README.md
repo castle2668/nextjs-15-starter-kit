@@ -9,7 +9,7 @@
 - TailwindCSS 3.4.1
 - TypeScript 5.x
 - ESLint + Prettier
-- Husky + lint-staged
+- Husky + lint-staged + commitlint
 
 ## 快速開始
 
@@ -56,6 +56,19 @@ npm run format       # 格式化程式碼
 
 - JS/TS 文件：ESLint 檢查 + Prettier 格式化
 - 其他文件：Prettier 格式化
+
+提交訊息規範使用 [commitlint](https://commitlint.js.org/) 強制執行 [Conventional Commits](https://www.conventionalcommits.org/) 規範，以下是提交訊息的範例：
+
+- `feat: add user authentication`
+- `fix: resolve shopping cart calculation bug`
+- `docs: update API documentation`
+- `style: format code according to style guide`
+- `refactor: restructure database queries`
+- `test: add unit tests for auth module`
+- `chore: update dependencies`
+- `perf: improve search performance`
+- `ci: configure GitHub Actions workflow`
+- `build: update webpack configuration`
 
 ## 參考文件
 
