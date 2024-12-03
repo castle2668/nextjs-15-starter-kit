@@ -55,4 +55,4 @@ npm run format       # 格式化程式碼
 
 ## 部署
 
-建議使用 [Vercel](https://vercel.com) 部署。
+Next.js 官方建議使用 [Vercel](https://vercel.com) 部署。
