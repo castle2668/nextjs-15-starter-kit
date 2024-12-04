@@ -9,7 +9,9 @@
 - TailwindCSS 3.4.1
 - TypeScript 5.x
 - ESLint + Prettier
-- Husky + lint-staged + commitlint
+- Husky + lint-staged
+- Husky + commitlint
+- Turbopack / Webpack + @next/bundle-analyzer
 
 ## 快速開始
 

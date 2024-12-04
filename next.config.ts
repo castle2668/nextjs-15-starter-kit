@@ -6,7 +6,9 @@ const withBundleAnalyzer = bundleAnalyzer({
 })
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // config options here
+  reactStrictMode: true, // 開啟 React 嚴格模式
+  poweredByHeader: false, // 關閉 X-Powered-By 標頭
 }
 
 export default withBundleAnalyzer(nextConfig)

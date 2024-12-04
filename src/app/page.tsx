@@ -37,7 +37,10 @@ export default function Home() {
         <Typography
           variant="h5"
           component="h1"
-          className="mb-4 font-bold text-white drop-shadow-lg"
+          className={cn(
+            'mb-4 font-bold drop-shadow-lg',
+            theme === 'dark' ? 'text-white' : 'text-gray-800'
+          )}
         >
           登入
         </Typography>
@@ -50,12 +53,9 @@ export default function Home() {
           onChange={e => setEmail(e.target.value)}
           className={cn(
             'mb-4',
-            theme === 'dark' && '[&_.MuiInputBase-root]:bg-black/80',
-            theme === 'light' && '[&_.MuiInputBase-root]:bg-white/90',
-            theme === 'dark' && '[&_.MuiInputLabel-root]:text-white/70',
-            theme === 'dark' &&
-              '[&_.MuiOutlinedInput-notchedOutline]:border-white/30',
-            theme === 'dark' && '[&_.MuiInputBase-input]:text-white'
+            theme === 'dark'
+              ? '[&_.MuiInputBase-input]:text-white [&_.MuiInputBase-root]:bg-black/50 [&_.MuiInputLabel-root]:text-white/70 [&_.MuiOutlinedInput-notchedOutline]:border-white/30'
+              : '[&_.MuiInputBase-root]:bg-white/90'
           )}
         />
 
@@ -68,12 +68,9 @@ export default function Home() {
           onChange={e => setPassword(e.target.value)}
           className={cn(
             'mb-6',
-            theme === 'dark' && '[&_.MuiInputBase-root]:bg-black/80',
-            theme === 'light' && '[&_.MuiInputBase-root]:bg-white/90',
-            theme === 'dark' && '[&_.MuiInputLabel-root]:text-white/70',
-            theme === 'dark' &&
-              '[&_.MuiOutlinedInput-notchedOutline]:border-white/30',
-            theme === 'dark' && '[&_.MuiInputBase-input]:text-white'
+            theme === 'dark'
+              ? '[&_.MuiInputBase-input]:text-white [&_.MuiInputBase-root]:bg-black/50 [&_.MuiInputLabel-root]:text-white/70 [&_.MuiOutlinedInput-notchedOutline]:border-white/30'
+              : '[&_.MuiInputBase-root]:bg-white/90'
           )}
         />
 
@@ -82,7 +79,7 @@ export default function Home() {
           fullWidth
           onClick={handleLogin}
           className={cn(
-            'py-3 text-lg',
+            'py-3 text-lg text-white',
             theme === 'dark'
               ? 'bg-blue-500/90 hover:bg-blue-500'
               : 'bg-blue-600/90 hover:bg-blue-600'
