@@ -1,8 +1,10 @@
 'use client'
 
 import { authApi } from '@/features/auth/api'
+import { ApiError } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth'
+import { useSnackbarStore } from '@/stores/snackbar'
 import { useThemeStore } from '@/stores/theme'
 import { Button, TextField, Typography } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
@@ -12,19 +14,27 @@ import { useState } from 'react'
 export function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const router = useRouter()
+
   const { theme } = useThemeStore()
   const { setAuth } = useAuthStore()
-  const router = useRouter()
+  const { showSnackbar } = useSnackbarStore()
 
   const loginMutation = useMutation({
     mutationFn: authApi.login,
     onSuccess: data => {
       setAuth(data.token, data.user)
+      showSnackbar('登入成功!', 'success')
       router.push('/') // 登入成功後導向首頁
     },
     onError: error => {
-      // 這裡可以加入錯誤處理，例如顯示錯誤訊息
-      console.error('登入失敗:', error)
+      // 檢查是否為 ApiError
+      if (error instanceof ApiError) {
+        showSnackbar(error.data.message, 'error')
+      } else {
+        showSnackbar('登入失敗，請稍後再試', 'error')
+      }
     },
   })
 
