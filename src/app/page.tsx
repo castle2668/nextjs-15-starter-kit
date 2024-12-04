@@ -1,23 +1,17 @@
 'use client'
 
-import { ThemeToggle } from '@/components/ThemeToggle'
-import { useTheme } from '@/contexts/ThemeContext'
+import { ThemeToggle } from '@/components/theme/ThemeToggle'
 import { cn } from '@/lib/utils'
-import { Button, TextField, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useThemeStore } from '@/stores/theme'
+import { Button, Typography } from '@mui/material'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const { theme } = useTheme()
-
-  const handleLogin = () => {
-    console.log('Email:', email)
-    console.log('Password:', password)
-  }
+  const { theme } = useThemeStore()
+  const router = useRouter()
 
   return (
-    <main className="fixed inset-0 flex items-center justify-center overflow-hidden">
+    <main className="relative flex min-h-[calc(100vh-64px)] items-center justify-center overflow-hidden">
       <div
         className="absolute inset-0 scale-110 bg-cover bg-center bg-no-repeat blur-md"
         style={{ backgroundImage: 'url(/images/background.jpg)' }}
@@ -26,8 +20,8 @@ export default function Home() {
       <div
         className={cn(
           'relative z-10',
-          'flex w-[300px] flex-col items-center gap-4',
-          'rounded-lg p-8',
+          'flex w-[600px] flex-col items-center gap-6',
+          'rounded-lg p-12',
           theme === 'dark' ? 'bg-black/25' : 'bg-white/25',
           'backdrop-blur-lg'
         )}
@@ -35,58 +29,41 @@ export default function Home() {
         <ThemeToggle />
 
         <Typography
-          variant="h5"
+          variant="h3"
           component="h1"
           className={cn(
-            'mb-4 font-bold drop-shadow-lg',
+            'font-bold drop-shadow-lg',
             theme === 'dark' ? 'text-white' : 'text-gray-800'
           )}
         >
-          登入
+          歡迎來到我們的平台
         </Typography>
 
-        <TextField
-          label="Email"
-          variant="outlined"
-          fullWidth
-          value={email}
-          onChange={e => setEmail(e.target.value)}
+        <Typography
+          variant="h6"
           className={cn(
-            'mb-4',
-            theme === 'dark'
-              ? '[&_.MuiInputBase-input]:text-white [&_.MuiInputBase-root]:bg-black/50 [&_.MuiInputLabel-root]:text-white/70 [&_.MuiOutlinedInput-notchedOutline]:border-white/30'
-              : '[&_.MuiInputBase-root]:bg-white/90'
-          )}
-        />
-
-        <TextField
-          label="密碼"
-          type="password"
-          variant="outlined"
-          fullWidth
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          className={cn(
-            'mb-6',
-            theme === 'dark'
-              ? '[&_.MuiInputBase-input]:text-white [&_.MuiInputBase-root]:bg-black/50 [&_.MuiInputLabel-root]:text-white/70 [&_.MuiOutlinedInput-notchedOutline]:border-white/30'
-              : '[&_.MuiInputBase-root]:bg-white/90'
-          )}
-        />
-
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={handleLogin}
-          className={cn(
-            'py-3 text-lg text-white',
-            theme === 'dark'
-              ? 'bg-blue-500/90 hover:bg-blue-500'
-              : 'bg-blue-600/90 hover:bg-blue-600'
+            'text-center',
+            theme === 'dark' ? 'text-white/80' : 'text-gray-600'
           )}
         >
-          登入
-        </Button>
+          這是一個專業的管理系統，提供完整的解決方案，
+          幫助您更有效率地管理業務流程。
+        </Typography>
+
+        <div className="mt-4 flex gap-4">
+          <Button
+            variant="contained"
+            onClick={() => router.push('/login')}
+            className={cn(
+              'px-8 py-3 text-lg text-white',
+              theme === 'dark'
+                ? 'bg-blue-500/90 hover:bg-blue-500'
+                : 'bg-blue-600/90 hover:bg-blue-600'
+            )}
+          >
+            立即登入
+          </Button>
+        </div>
       </div>
     </main>
   )
