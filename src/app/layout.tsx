@@ -3,6 +3,7 @@
 import { Header } from '@/components/Header'
 import { QueryProvider } from '@/components/providers/QueryProvider'
 import { ThemeWrapper } from '@/components/theme/ThemeWrapper'
+import { Snackbar } from '@/components/ui/Snackbar'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import { Roboto } from 'next/font/google'
 import { useEffect } from 'react'
@@ -41,12 +42,14 @@ export default function RootLayout({
   return (
     <html lang="zh-TW">
       <body id="__next" className={roboto.variable}>
+        {/* MUI 的 SSR 支援 */}
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <QueryProvider>
             <ThemeWrapper>
               <div className="flex min-h-screen flex-col">
                 <Header />
                 <main className="flex-1">{children}</main>
+                <Snackbar />
               </div>
             </ThemeWrapper>
           </QueryProvider>

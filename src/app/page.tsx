@@ -7,8 +7,9 @@ import { Button, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 
 export default function Home() {
-  const { theme } = useThemeStore()
   const router = useRouter()
+
+  const { theme } = useThemeStore()
 
   return (
     <main className="relative flex min-h-[calc(100vh-64px)] items-center justify-center overflow-hidden">
