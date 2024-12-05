@@ -2,6 +2,7 @@
 
 import { ThemeToggle } from '@/components/theme/ThemeToggle'
 import { cn } from '@/lib/utils'
+import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
 import { Button, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
@@ -10,6 +11,7 @@ export default function Home() {
   const router = useRouter()
 
   const { theme } = useThemeStore()
+  const { isAuthenticated } = useAuthStore()
 
   return (
     <main className="relative flex min-h-[calc(100vh-64px)] items-center justify-center overflow-hidden">
@@ -54,7 +56,7 @@ export default function Home() {
         <div className="mt-4 flex gap-4">
           <Button
             variant="contained"
-            onClick={() => router.push('/login')}
+            onClick={() => router.push(isAuthenticated ? '/about' : '/login')}
             className={cn(
               'px-8 py-3 text-lg text-white',
               theme === 'dark'
@@ -62,7 +64,7 @@ export default function Home() {
                 : 'bg-blue-600/90 hover:bg-blue-600'
             )}
           >
-            立即登入
+            {isAuthenticated ? '進入系統' : '立即登入'}
           </Button>
         </div>
       </div>
