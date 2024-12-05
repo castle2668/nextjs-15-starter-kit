@@ -6,14 +6,29 @@ import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth'
 import { useSnackbarStore } from '@/stores/snackbar'
 import { useThemeStore } from '@/stores/theme'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, TextField, Typography } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+// 定義驗證 schema
+const loginSchema = z.object({
+  email: z.string().email('請輸入有效的 Email'),
+  password: z.string().min(6, '密碼至少需要 6 個字元'),
+})
+
+type LoginFormData = z.infer<typeof loginSchema>
 
 export function LoginForm() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  })
 
   const router = useRouter()
 
@@ -38,19 +53,17 @@ export function LoginForm() {
     },
   })
 
-  const handleLogin = async () => {
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      await loginMutation.mutateAsync({
-        email,
-        password,
-      })
+      await loginMutation.mutateAsync(data)
     } catch (error) {
-      // 錯誤已經在 onError 中處理
+      // 錯誤處理已在 mutation 中
     }
   }
 
   return (
-    <div
+    <form
+      onSubmit={handleSubmit(onSubmit)}
       className={cn(
         'relative z-10',
         'flex w-[300px] flex-col items-center gap-4',
@@ -71,11 +84,12 @@ export function LoginForm() {
       </Typography>
 
       <TextField
+        {...register('email')}
         label="Email"
+        error={!!errors.email}
+        helperText={errors.email?.message}
         variant="outlined"
         fullWidth
-        value={email}
-        onChange={e => setEmail(e.target.value)}
         className={cn(
           'mb-4',
           theme === 'dark'
@@ -85,12 +99,13 @@ export function LoginForm() {
       />
 
       <TextField
-        label="密碼"
+        {...register('password')}
         type="password"
+        label="密碼"
+        error={!!errors.password}
+        helperText={errors.password?.message}
         variant="outlined"
         fullWidth
-        value={password}
-        onChange={e => setPassword(e.target.value)}
         className={cn(
           'mb-6',
           theme === 'dark'
@@ -100,10 +115,10 @@ export function LoginForm() {
       />
 
       <Button
+        type="submit"
         variant="contained"
         fullWidth
-        onClick={handleLogin}
-        disabled={loginMutation.isPending}
+        disabled={isSubmitting}
         className={cn(
           'py-3 text-lg text-white',
           theme === 'dark'
@@ -111,8 +126,8 @@ export function LoginForm() {
             : 'bg-blue-600/90 hover:bg-blue-600'
         )}
       >
-        {loginMutation.isPending ? '登入中...' : '登入'}
+        {isSubmitting ? '登入中...' : '登入'}
       </Button>
-    </div>
+    </form>
   )
 }

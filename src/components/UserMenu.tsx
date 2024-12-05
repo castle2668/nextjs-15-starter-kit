@@ -32,9 +32,9 @@ export function UserMenu() {
         onClick={handleMenu}
         sx={{
           color: '#fff',
-          backgroundColor: theme => theme.palette.primary.main,
+          backgroundColor: 'transparent',
           '&:hover': {
-            backgroundColor: theme => theme.palette.primary.dark,
+            backgroundColor: 'rgba(255, 255, 255, 0.1)', // 懸停時顯示半透明白色
           },
         }}
         startIcon={
