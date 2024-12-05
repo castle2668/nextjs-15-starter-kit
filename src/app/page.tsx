@@ -1,6 +1,5 @@
 'use client'
 
-import { ThemeToggle } from '@/components/theme/ThemeToggle'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
@@ -29,8 +28,6 @@ export default function Home() {
           'backdrop-blur-lg'
         )}
       >
-        <ThemeToggle />
-
         <Typography
           variant="h3"
           component="h1"

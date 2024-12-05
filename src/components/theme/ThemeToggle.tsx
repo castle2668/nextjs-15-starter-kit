@@ -10,7 +10,7 @@ export function ThemeToggle() {
   const { theme, toggleTheme } = useThemeStore()
 
   return (
-    <IconButton onClick={toggleTheme} color="inherit">
+    <IconButton onClick={toggleTheme} color="inherit" aria-label="切換主題">
       {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
     </IconButton>
   )
