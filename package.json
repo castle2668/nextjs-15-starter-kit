@@ -11,7 +11,14 @@
     "format:check": "prettier --check .",
     "prepare": "husky",
     "analyze": "ANALYZE=true npm run build",
-    "analyze:win": "set ANALYZE=true && npm run build"
+    "analyze:win": "set ANALYZE=true && npm run build",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest watch",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
@@ -45,27 +52,29 @@
     "@commitlint/cli": "^19.6.0",
     "@commitlint/config-conventional": "^19.6.0",
     "@next/bundle-analyzer": "^15.0.3",
+    "@playwright/test": "^1.49.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^2.1.8",
     "autoprefixer": "^10.4.20",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.7",
+    "jsdom": "^25.0.1",
     "lint-staged": "^15.2.10",
-    "msw": "^2.6.6",
     "postcss": "^8.4.49",
     "prettier": "^3.4.1",
     "prettier-plugin-tailwindcss": "^0.6.9",
     "tailwindcss": "^3.4.15",
-    "typescript": "^5"
-  },
-  "msw": {
-    "workerDirectory": [
-      "public"
-    ]
+    "typescript": "^5",
+    "vitest": "^2.1.8"
   }
 }

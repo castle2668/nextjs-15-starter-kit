@@ -16,18 +16,19 @@ export interface LoginResponse {
 
 export const authApi = {
   login: (data: LoginRequest) =>
-    fetchApi<LoginResponse>('/auth/login', {
+    fetchApi<LoginResponse>('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify(data),
+      skipAuth: true,
     }),
 
   logout: () =>
-    fetchApi('/auth/logout', {
+    fetchApi('/api/auth/logout', {
       method: 'POST',
     }),
 
   getProfile: () =>
-    fetchApi('/auth/profile', {
+    fetchApi('/api/auth/profile', {
       method: 'GET',
     }),
 }

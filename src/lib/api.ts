@@ -10,7 +10,8 @@ interface FetchOptions extends RequestInit {
 // 請求攔截器
 async function requestInterceptor(url: string, options: FetchOptions) {
   const {
-    baseURL = process.env.NEXT_PUBLIC_API_URL,
+    // baseURL = process.env.NEXT_PUBLIC_API_URL,
+    baseURL = '', // 本地 API 不需要 baseURL
     skipAuth = false,
     ...init
   } = options
