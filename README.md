@@ -1,83 +1,118 @@
 # Next.js 15 Starter Kit
 
-基於 Next.js 15 的前端開發模板，整合 MUI v6 和 TailwindCSS，並配備完整的程式碼品質控制工具。
+_This is my preferred version, you may also have other technical options_.
 
-## 使用技術
+Welcome to the Next.js 15 Starter Kit repository! This starter template integrates Next.js 15, React 18, Material UI v6, and TypeScript 5, providing essential tools and configurations for rapid development.
 
-- Next.js 15.0.3 + React 18
-- Material-UI 6.1.9
-- TailwindCSS 3.4.1
-- TypeScript 5.x
-- ESLint + Prettier
-- Husky + lint-staged
-- Husky + commitlint
-- Turbopack / Webpack + @next/bundle-analyzer
+## 🚀 What's Included
 
-## 快速開始
+- Next.js 15
+- React 18 (Will upgrade to React 19 when stable)
+- Material UI v6
+- Tailwind CSS
+- TypeScript 5
+- Redux Toolkit
+- ESLint 8 (Will upgrade to ESLint 9 when React 19 is stable)
+- Prettier 3
+- Light & Dark Mode
+- Next.js Bundle Analyzer
+- Git Hooks (Husky + lint-staged + commitlint)
 
-安裝依賴：
+## 🛠️ ESLint Plugins
 
-```bash
-npm install
-```
+- [@prettier/eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier)
 
-啟動開發環境（使用 Turbopack）：
+## ✨ Prettier Plugins
 
-```bash
-npm run dev
-```
+- [@trivago/prettier-plugin-sort-imports](https://github.com/trivago/prettier-plugin-sort-imports)
 
-## 環境設定
+## VS Code Extensions (Recommended)
 
-1. 複製 `.env.example` 到 `.env`：
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+- [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+- [Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)
+- [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost)
+- [Auto Rename Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag)
+
+## 🏁 Getting Started
+
+### Prerequisites
+
+- Node.js: Version 18.20.5 or higher
+
+### Installation
+
+1. Clone the Repository
+2. Install Dependencies
+
+   ```bash
+   npm install
+   ```
+
+3. Run Development Server
+
+   ```bash
+   npm run dev
+   ```
+
+4. Build for Production
+
+   ```bash
+   npm run dev          # Development environment
+   npm run build        # Build project
+   npm run start        # Production environment
+   npm run lint         # Code linting
+   npm run format       # Code formatting
+   ```
+
+## 🐳 Environment Setup
+
+1. Copy `.env.example` to `.env`
 
    ```bash
    cp .env.example .env
    ```
 
-2. 根據需求修改 `.env` 中的配置
+2. Modify the configurations in `.env` according to your needs
 
-## 開發指令
+## 🛞 Automation Tools
 
-```bash
-npm run dev          # 開發環境
-npm run build        # 建置專案
-npm run start        # 執行產品環境
-npm run lint         # 程式碼檢查
-npm run format       # 格式化程式碼
-```
+Project code quality is enforced using:
 
-## Git 提交規範
+- [Husky](https://typicode.github.io/husky/): Executes scripts automatically during Git commits
+- [lint-staged](https://github.com/okonet/lint-staged): Runs checks only on staged files
+- [commitlint](https://commitlint.js.org/): Ensures commit messages follow Conventional Commits specification
 
-本專案使用 [Husky](https://typicode.github.io/husky/) 和 [lint-staged](https://github.com/okonet/lint-staged) 來確保程式碼品質：
+### Automated Checks on Commit
 
-- **Husky**：在 Git 提交時自動運行腳本
-- **lint-staged**：只檢查和格式化暫存區的文件
+- Code Files (.js/.ts):
+  - ESLint validation
+  - Prettier formatting
+- Other Files: Prettier formatting
 
-提交程式碼時會自動執行：
+### Commit Message Convention
 
-- JS/TS 文件：ESLint 檢查 + Prettier 格式化
-- 其他文件：Prettier 格式化
+We recommend following [Conventional Commits](https://www.conventionalcommits.org/) specification, enforced by [commitlint](https://commitlint.js.org/).
 
-提交訊息規範使用 [commitlint](https://commitlint.js.org/) 強制執行 [Conventional Commits](https://www.conventionalcommits.org/) 規範，以下是提交訊息的範例：
+Format: `<type>: <description>`
 
-- `feat: add user authentication`
-- `fix: resolve shopping cart calculation bug`
-- `docs: update API documentation`
-- `style: format code according to style guide`
-- `refactor: restructure database queries`
-- `test: add unit tests for auth module`
-- `chore: update dependencies`
-- `perf: improve search performance`
-- `ci: configure GitHub Actions workflow`
-- `build: update webpack configuration`
+Common types:
 
-## 參考文件
+| Type     | Purpose               | Example                                |
+| -------- | --------------------- | -------------------------------------- |
+| feat     | New features          | `feat: add user authentication system` |
+| fix      | Bug fixes             | `fix: resolve cart calculation error`  |
+| docs     | Documentation         | `docs: update API documentation`       |
+| style    | Code style/formatting | `style: apply consistent code style`   |
+| refactor | Code refactoring      | `refactor: optimize database queries`  |
+| test     | Testing               | `test: add unit tests for auth module` |
+| chore    | Maintenance           | `chore: update dependencies`           |
+| perf     | Performance           | `perf: improve search performance`     |
+| ci       | CI/CD changes         | `ci: configure GitHub Actions`         |
+| build    | Build system          | `build: update webpack config`         |
 
-- [Next.js](https://nextjs.org/docs)
-- [MUI](https://mui.com/material-ui/)
-- [TailwindCSS](https://tailwindcss.com/docs)
+## License
 
-## 部署
-
-Next.js 官方建議使用 [Vercel](https://vercel.com) 部署。
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/castle2668/nextjs-15-starter-kit/blob/main/LICENSE) file for details.
