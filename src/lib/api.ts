@@ -1,5 +1,7 @@
-import { useAuthStore } from '@/stores/auth'
-import { useSnackbarStore } from '@/stores/snackbar'
+import { showSnackbar } from '@/lib/features/snackbar/snackbarSlice'
+import { store } from '@/lib/store'
+
+import { clearAuth, setAuth } from './features/auth/authSlice'
 
 interface FetchOptions extends RequestInit {
   baseURL?: string // 自定義的基礎 URL
@@ -22,7 +24,7 @@ async function requestInterceptor(url: string, options: FetchOptions) {
 
   // 如果需要認證，加入 token
   if (!skipAuth) {
-    const token = useAuthStore.getState().token
+    const token = store.getState().auth.token
     if (token) {
       headers.set('Authorization', `Bearer ${token}`)
     }
@@ -42,35 +44,67 @@ async function responseInterceptor(response: Response) {
   // 檢查是否需要重新整理 token
   const newToken = response.headers.get('X-New-Token')
   if (newToken) {
-    useAuthStore.getState().setAuth(newToken, useAuthStore.getState().user!)
+    store.dispatch(
+      setAuth({ token: newToken, user: store.getState().auth.user! })
+    )
   }
 
   // 如果回應不是 2xx，拋出錯誤
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}))
-    const { showSnackbar } = useSnackbarStore.getState()
+    store.dispatch(
+      showSnackbar({
+        message: errorData.message || '帳號或密碼錯誤',
+        severity: 'error',
+      })
+    )
 
     // 處理特定狀態碼
     switch (response.status) {
       case 401:
         // 登入頁的 401 錯誤不需要自動跳轉
         if (window.location.pathname === '/login') {
-          showSnackbar(errorData.message || '帳號或密碼錯誤', 'error')
+          store.dispatch(
+            showSnackbar({
+              message: errorData.message || '帳號或密碼錯誤',
+              severity: 'error',
+            })
+          )
         } else {
           // 其他頁面的 401 錯誤需要清除 token 並跳轉
-          useAuthStore.getState().clearAuth()
-          showSnackbar('登入已過期，請重新登入', 'error')
+          store.dispatch(clearAuth())
+          store.dispatch(
+            showSnackbar({
+              message: '登入已過期，請重新登入',
+              severity: 'error',
+            })
+          )
           window.location.href = '/login'
         }
         break
       case 403:
-        showSnackbar(errorData.message || '權限不足', 'error')
+        store.dispatch(
+          showSnackbar({
+            message: errorData.message || '權限不足',
+            severity: 'error',
+          })
+        )
         break
       case 404:
-        showSnackbar(errorData.message || '找不到資源', 'error')
+        store.dispatch(
+          showSnackbar({
+            message: errorData.message || '找不到資源',
+            severity: 'error',
+          })
+        )
         break
       default:
-        showSnackbar(errorData.message || '請求失敗', 'error')
+        store.dispatch(
+          showSnackbar({
+            message: errorData.message || '請求失敗',
+            severity: 'error',
+          })
+        )
     }
 
     throw new ApiError(response.status, response.statusText, errorData)
@@ -94,7 +128,7 @@ export class ApiError extends Error {
       [key: string]: any
     }
   ) {
-    super(`${status} ${statusText}`) // 調用父類構造函數，設置錯誤消息
+    super(`${status} ${statusText}`) // 調用父類構���函數，設置錯誤消息
     this.name = 'ApiError' // 設置錯誤名稱
   }
 }
@@ -117,9 +151,9 @@ export async function fetchApi<T>(
       throw error
     }
     // 處理網路錯誤等
-    useSnackbarStore
-      .getState()
-      .showSnackbar('網路連線異常，請稍後再試', 'error')
+    store.dispatch(
+      showSnackbar({ message: '網路連線異常，請稍後再試', severity: 'error' })
+    )
     throw new Error('網路連線異常，請稍後再試')
   }
 }
