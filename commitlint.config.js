@@ -30,22 +30,6 @@ module.exports = {
     'body-max-line-length': [2, 'always', 100],
     'footer-leading-blank': [2, 'always'],
     'footer-max-line-length': [2, 'always', 100],
-    // Body 格式檢查
-    'body-format': [
-      2,
-      'always',
-      {
-        pattern: /^[0-9]+\. .+\.$/,
-      },
-    ],
-    // Footer 格式檢查
-    'footer-format': [
-      2,
-      'always',
-      {
-        pattern: /^(BREAKING CHANGE: )?.+\.$/,
-      },
-    ],
   },
 }
 
