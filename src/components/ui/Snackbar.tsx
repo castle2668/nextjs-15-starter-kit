@@ -1,19 +1,25 @@
 'use client'
 
-import { useSnackbarStore } from '@/stores/snackbar'
+import { hideSnackbar } from '@/lib/features/snackbar/snackbarSlice'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { Alert, Snackbar as MuiSnackbar } from '@mui/material'
 
 export function Snackbar() {
-  const { open, message, severity, hideSnackbar } = useSnackbarStore()
+  const dispatch = useAppDispatch()
+  const { open, message, severity } = useAppSelector(state => state.snackbar)
+
+  const handleClose = () => {
+    dispatch(hideSnackbar())
+  }
 
   return (
     <MuiSnackbar
       open={open}
       autoHideDuration={6000}
-      onClose={hideSnackbar}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      onClose={handleClose}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     >
-      <Alert onClose={hideSnackbar} severity={severity}>
+      <Alert onClose={handleClose} severity={severity}>
         {message}
       </Alert>
     </MuiSnackbar>

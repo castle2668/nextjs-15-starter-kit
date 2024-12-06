@@ -1,12 +1,14 @@
 'use client'
 
-import { useAuthStore } from '@/stores/auth'
+import { clearAuth } from '@/lib/features/auth/authSlice'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { Avatar, Button, Menu, MenuItem } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export function UserMenu() {
-  const { user, clearAuth } = useAuthStore()
+  const user = useAppSelector(state => state.auth.user)
+  const dispatch = useAppDispatch()
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
@@ -21,7 +23,7 @@ export function UserMenu() {
   }
 
   const handleLogout = () => {
-    clearAuth()
+    dispatch(clearAuth())
     handleClose()
     router.push('/login')
   }
