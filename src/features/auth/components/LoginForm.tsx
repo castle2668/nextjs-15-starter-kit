@@ -2,14 +2,14 @@
 
 import { authApi } from '@/features/auth/api'
 import { ApiError } from '@/lib/api'
+import { setAuth } from '@/lib/features/auth/authSlice'
+import { showSnackbar } from '@/lib/features/snackbar/snackbarSlice'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { cn } from '@/lib/utils'
-import { useAuthStore } from '@/stores/auth'
-import { useSnackbarStore } from '@/stores/snackbar'
-import { useThemeStore } from '@/stores/theme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, TextField, Typography } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -25,39 +25,35 @@ export function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   })
 
   const router = useRouter()
-
-  const { theme } = useThemeStore()
-  const { setAuth } = useAuthStore()
-  const { showSnackbar } = useSnackbarStore()
-
-  const loginMutation = useMutation({
-    mutationFn: authApi.login,
-    onSuccess: data => {
-      setAuth(data.token, data.user)
-      showSnackbar('登入成功!', 'success')
-      router.push('/') // 登入成功後導向首頁
-    },
-    onError: error => {
-      // 檢查是否為 ApiError
-      if (error instanceof ApiError) {
-        showSnackbar(error.data.message, 'error')
-      } else {
-        showSnackbar('登入失敗，請稍後再試', 'error')
-      }
-    },
-  })
+  const dispatch = useAppDispatch()
+  const { theme } = useAppSelector(state => state.theme)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const onSubmit = async (data: LoginFormData) => {
+    setIsSubmitting(true)
     try {
-      await loginMutation.mutateAsync(data)
+      const response = await authApi.login(data)
+      dispatch(setAuth({ token: response.token, user: response.user }))
+      dispatch(showSnackbar({ message: '登入成功!', severity: 'success' }))
+      router.push('/')
     } catch (error) {
-      // 錯誤處理已在 mutation 中
+      if (error instanceof ApiError) {
+        dispatch(
+          showSnackbar({ message: error.data.message, severity: 'error' })
+        )
+      } else {
+        dispatch(
+          showSnackbar({ message: '登入失敗，請稍後再試', severity: 'error' })
+        )
+      }
+    } finally {
+      setIsSubmitting(false)
     }
   }
 

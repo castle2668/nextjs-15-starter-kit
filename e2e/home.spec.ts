@@ -22,18 +22,40 @@ test.describe('首頁', () => {
 
     // 檢查初始主題
     const initialTheme = await page.evaluate(() => {
-      const themeData = localStorage.getItem('theme')
-      return themeData ? JSON.parse(themeData).state.theme : 'light'
+      try {
+        // 1. 獲取 persist:root 的內容
+        const persistRoot = localStorage.getItem('persist:root')
+        if (!persistRoot) return 'light'
+
+        // 2. 解析整個 Redux 狀態
+        const reduxState = JSON.parse(persistRoot)
+
+        // 3. 解析主題狀態
+        const themeState = JSON.parse(reduxState.theme)
+
+        // 4. 返回實際的主題值
+        return themeState.theme
+      } catch {
+        return 'light' // 如果解析失敗，返回預設主題
+      }
     })
 
     // 點擊主題切換按鈕
     const themeButton = page.getByRole('button', { name: '切換主題' })
     await themeButton.click()
 
-    // 直接檢查更新後的主題
+    // 檢查更新後的主題
     const updatedTheme = await page.evaluate(() => {
-      const themeData = localStorage.getItem('theme')
-      return themeData ? JSON.parse(themeData).state.theme : 'light'
+      try {
+        const persistRoot = localStorage.getItem('persist:root')
+        if (!persistRoot) return 'light'
+
+        const reduxState = JSON.parse(persistRoot)
+        const themeState = JSON.parse(reduxState.theme)
+        return themeState.theme
+      } catch {
+        return 'light'
+      }
     })
 
     // 驗證主題是否正確切換

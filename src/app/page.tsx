@@ -1,16 +1,15 @@
 'use client'
 
+import { useAppSelector } from '@/lib/hooks'
 import { cn } from '@/lib/utils'
-import { useAuthStore } from '@/stores/auth'
-import { useThemeStore } from '@/stores/theme'
 import { Button, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const router = useRouter()
 
-  const { theme } = useThemeStore()
-  const { isAuthenticated } = useAuthStore()
+  const { theme } = useAppSelector(state => state.theme)
+  const { isAuthenticated } = useAppSelector(state => state.auth)
 
   return (
     <main className="relative flex min-h-[calc(100vh-64px)] items-center justify-center overflow-hidden">

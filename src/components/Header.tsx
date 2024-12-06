@@ -1,13 +1,13 @@
 'use client'
 
-import { useAuthStore } from '@/stores/auth'
+import { useAppSelector } from '@/lib/hooks'
 import { AppBar, Toolbar, Typography } from '@mui/material'
 
 import { UserMenu } from './UserMenu'
 import { ThemeToggle } from './theme/ThemeToggle'
 
 export function Header() {
-  const { isAuthenticated } = useAuthStore()
+  const { isAuthenticated } = useAppSelector(state => state.auth)
 
   return (
     <AppBar position="static">
