@@ -15,7 +15,6 @@ Welcome to the Next.js 15 Starter Kit repository! This starter template integrat
 - ESLint 8 (Will upgrade to ESLint 9 when React 19 is stable)
 - Prettier 3
 - Light & Dark Mode
-- Next.js Bundle Analyzer
 - Git Hooks (Husky + lint-staged + commitlint)
 
 ## 🛠️ ESLint Plugins
