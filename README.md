@@ -25,7 +25,7 @@ Welcome to the Next.js 15 Starter Kit repository! This starter template integrat
 
 - [@trivago/prettier-plugin-sort-imports](https://github.com/trivago/prettier-plugin-sort-imports)
 
-## VS Code Extensions (Recommended)
+## 🧰 VS Code Extensions (Recommended)
 
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
@@ -112,6 +112,6 @@ Common types:
 | ci       | CI/CD changes         | `ci: configure GitHub Actions`         |
 | build    | Build system          | `build: update webpack config`         |
 
-## License
+## 🪪 License
 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/castle2668/nextjs-15-starter-kit/blob/main/LICENSE) file for details.
