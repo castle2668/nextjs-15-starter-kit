@@ -2,7 +2,7 @@
 
 import { AuthProvider } from '@/components/AuthProvider'
 import { DashboardLayout } from '@/components/layouts/DashboardLayout'
-import { ThemeWrapper } from '@/components/theme/ThemeWrapper'
+import { ThemeWrapper } from '@/components/layouts/ThemeWrapper'
 import { Snackbar } from '@/components/ui/Snackbar'
 import { persistor, store } from '@/lib/store'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'

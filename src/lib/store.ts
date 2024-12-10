@@ -3,19 +3,17 @@ import { persistReducer, persistStore } from 'redux-persist'
 
 import authReducer from './features/auth/authSlice'
 import snackbarReducer from './features/snackbar/snackbarSlice'
-import themeReducer from './features/theme/themeSlice'
 import storage from './storage'
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['theme'], // 只持久化 theme
+  // whitelist: [''], // 只持久化某個 Slice
 }
 
 const rootReducer = combineReducers({
   auth: authReducer,
   snackbar: snackbarReducer,
-  theme: themeReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

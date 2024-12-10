@@ -3,7 +3,7 @@
 import { useAppSelector } from '@/lib/hooks'
 import { AppBar, Box, Toolbar } from '@mui/material'
 
-import { ThemeToggle } from '../theme/ThemeToggle'
+import { ThemeToggle } from './ThemeWrapper'
 
 export function Header() {
   return (
