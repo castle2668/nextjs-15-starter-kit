@@ -1,6 +1,7 @@
 'use client'
 
-import { Header } from '@/components/Header'
+import { AuthProvider } from '@/components/AuthProvider'
+import { DashboardLayout } from '@/components/layouts/DashboardLayout'
 import { ThemeWrapper } from '@/components/theme/ThemeWrapper'
 import { Snackbar } from '@/components/ui/Snackbar'
 import { persistor, store } from '@/lib/store'
@@ -30,11 +31,12 @@ export default function RootLayout({
           <PersistGate loading={null} persistor={persistor}>
             <AppRouterCacheProvider options={{ enableCssLayer: true }}>
               <ThemeWrapper>
-                <div className="flex min-h-screen flex-col">
-                  <Header />
-                  <main className="flex-1">{children}</main>
-                  <Snackbar />
-                </div>
+                <AuthProvider>
+                  <DashboardLayout>
+                    {children}
+                    <Snackbar />
+                  </DashboardLayout>
+                </AuthProvider>
               </ThemeWrapper>
             </AppRouterCacheProvider>
           </PersistGate>

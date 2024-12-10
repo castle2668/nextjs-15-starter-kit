@@ -1,5 +1,6 @@
 import { showSnackbar } from '@/lib/features/snackbar/snackbarSlice'
 import { store } from '@/lib/store'
+import Cookies from 'js-cookie'
 
 import { clearAuth, setAuth } from './features/auth/authSlice'
 
@@ -24,7 +25,7 @@ async function requestInterceptor(url: string, options: FetchOptions) {
 
   // 如果需要認證，加入 token
   if (!skipAuth) {
-    const token = store.getState().auth.token
+    const token = Cookies.get('token')
     if (token) {
       headers.set('Authorization', `Bearer ${token}`)
     }
@@ -128,7 +129,7 @@ export class ApiError extends Error {
       [key: string]: any
     }
   ) {
-    super(`${status} ${statusText}`) // 調用父類構���函數，設置錯誤消息
+    super(`${status} ${statusText}`) // 設置錯誤消息
     this.name = 'ApiError' // 設置錯誤名稱
   }
 }

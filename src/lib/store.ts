@@ -9,7 +9,7 @@ import storage from './storage'
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'theme'], // 只持久化 auth 和 theme
+  whitelist: ['theme'], // 只持久化 theme
 }
 
 const rootReducer = combineReducers({
