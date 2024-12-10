@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import Cookies from 'js-cookie'
 
 interface User {
   id: string
@@ -8,14 +9,12 @@ interface User {
 
 // 定義狀態的介面
 interface AuthState {
-  token: string | null
   user: User | null
   isAuthenticated: boolean
 }
 
 // 初始狀態
 const initialState: AuthState = {
-  token: null,
   user: null,
   isAuthenticated: false,
 }
@@ -27,13 +26,23 @@ const authSlice = createSlice({
   reducers: {
     // 設置登入狀態
     setAuth: (state, action: PayloadAction<{ token: string; user: User }>) => {
-      state.token = action.payload.token
+      // 將 token 存在 cookie 中
+      Cookies.set('token', action.payload.token, {
+        expires: 7, // 7天後過期
+        secure: process.env.NODE_ENV === 'production', // 生產環境才使用 secure
+        sameSite: 'strict',
+      })
+
+      // 用戶資訊存在 Redux 中
       state.user = action.payload.user
       state.isAuthenticated = true
     },
     // 清除登入狀態
     clearAuth: state => {
-      state.token = null
+      // 清除 cookie 中的 token
+      Cookies.remove('token')
+
+      // 清除 Redux 中的用戶資訊
       state.user = null
       state.isAuthenticated = false
     },

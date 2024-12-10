@@ -13,12 +13,7 @@ export function Snackbar() {
   }
 
   return (
-    <MuiSnackbar
-      open={open}
-      autoHideDuration={6000}
-      onClose={handleClose}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-    >
+    <MuiSnackbar open={open} autoHideDuration={6000} onClose={handleClose}>
       <Alert onClose={handleClose} severity={severity}>
         {message}
       </Alert>

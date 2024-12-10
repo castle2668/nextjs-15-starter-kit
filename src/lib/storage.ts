@@ -1,3 +1,4 @@
+// 使用 redux-persist 的 storage
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 
 const createNoopStorage = () => {

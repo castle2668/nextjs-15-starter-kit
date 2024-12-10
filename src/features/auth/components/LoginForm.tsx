@@ -32,7 +32,6 @@ export function LoginForm() {
 
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const { theme } = useAppSelector(state => state.theme)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const onSubmit = async (data: LoginFormData) => {
@@ -60,24 +59,11 @@ export function LoginForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={cn(
-        'relative z-10',
-        'flex w-[300px] flex-col items-center gap-4',
-        'rounded-lg p-8',
-        theme === 'dark' ? 'bg-black/25' : 'bg-white/25',
-        'backdrop-blur-lg'
-      )}
+      className="w-[300px] space-y-4 rounded-lg p-6"
     >
-      <Typography
-        variant="h5"
-        component="h1"
-        className={cn(
-          'mb-4 font-bold drop-shadow-lg',
-          theme === 'dark' ? 'text-white' : 'text-gray-800'
-        )}
-      >
+      <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
         登入
-      </Typography>
+      </h1>
 
       <TextField
         {...register('email')}
@@ -86,12 +72,6 @@ export function LoginForm() {
         helperText={errors.email?.message}
         variant="outlined"
         fullWidth
-        className={cn(
-          'mb-4',
-          theme === 'dark'
-            ? '[&_.MuiInputBase-input]:text-white [&_.MuiInputBase-root]:bg-black/50 [&_.MuiInputLabel-root]:text-white/70 [&_.MuiOutlinedInput-notchedOutline]:border-white/30'
-            : '[&_.MuiInputBase-root]:bg-white/90'
-        )}
       />
 
       <TextField
@@ -102,12 +82,6 @@ export function LoginForm() {
         helperText={errors.password?.message}
         variant="outlined"
         fullWidth
-        className={cn(
-          'mb-6',
-          theme === 'dark'
-            ? '[&_.MuiInputBase-input]:text-white [&_.MuiInputBase-root]:bg-black/50 [&_.MuiInputLabel-root]:text-white/70 [&_.MuiOutlinedInput-notchedOutline]:border-white/30'
-            : '[&_.MuiInputBase-root]:bg-white/90'
-        )}
       />
 
       <Button
@@ -115,12 +89,7 @@ export function LoginForm() {
         variant="contained"
         fullWidth
         disabled={isSubmitting}
-        className={cn(
-          'py-3 text-lg text-white',
-          theme === 'dark'
-            ? 'bg-blue-500/90 hover:bg-blue-500'
-            : 'bg-blue-600/90 hover:bg-blue-600'
-        )}
+        className="mt-4 bg-emerald-500 py-3 text-lg hover:bg-emerald-600"
       >
         {isSubmitting ? '登入中...' : '登入'}
       </Button>
