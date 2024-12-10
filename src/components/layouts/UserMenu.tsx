@@ -1,11 +1,12 @@
 'use client'
 
-import { authApi } from '@/features/auth/api'
-import { clearAuth } from '@/lib/features/auth/authSlice'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { Avatar, Menu, MenuItem } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+
+import { authApi } from '@/features/auth/api'
+import { clearAuth } from '@/features/auth/store/authSlice'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 
 export function UserMenu() {
   const user = useAppSelector(state => state.auth.user)

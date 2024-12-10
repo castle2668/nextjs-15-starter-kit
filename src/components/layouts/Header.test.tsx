@@ -1,8 +1,9 @@
-import { clearAuth, setAuth } from '@/lib/features/auth/authSlice'
-import { store } from '@/lib/store'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import { clearAuth, setAuth } from '@/features/auth/store/authSlice'
+import { store } from '@/lib/store'
 
 import { Header } from './Header'
 

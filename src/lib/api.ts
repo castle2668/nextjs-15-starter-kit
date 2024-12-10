@@ -1,8 +1,9 @@
-import { showSnackbar } from '@/lib/features/snackbar/snackbarSlice'
-import { store } from '@/lib/store'
 import Cookies from 'js-cookie'
 
-import { clearAuth, setAuth } from './features/auth/authSlice'
+import { showSnackbar } from '@/features/snackbar/store/snackbarSlice'
+import { store } from '@/lib/store'
+
+import { clearAuth, setAuth } from '../features/auth/store/authSlice'
 
 interface FetchOptions extends RequestInit {
   baseURL?: string // 自定義的基礎 URL
