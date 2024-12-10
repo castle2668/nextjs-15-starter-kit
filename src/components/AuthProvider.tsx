@@ -1,5 +1,6 @@
 'use client'
 
+import { authApi } from '@/features/auth/api'
 import { setAuth } from '@/lib/features/auth/authSlice'
 import { useAppDispatch } from '@/lib/hooks'
 import Cookies from 'js-cookie'
@@ -17,19 +18,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const token = Cookies.get('token')
       if (token) {
         try {
-          const response = await fetch('/api/auth/me', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-
-          if (response.ok) {
-            const { user } = await response.json()
-            dispatch(setAuth({ token, user }))
-          } else {
-            // 如果獲取用戶資訊失敗，清除 token
-            Cookies.remove('token')
-          }
+          const { user } = await authApi.getProfile()
+          dispatch(setAuth({ token, user }))
         } catch (error) {
           console.error('Failed to fetch user info:', error)
           Cookies.remove('token')

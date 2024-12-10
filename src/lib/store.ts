@@ -8,7 +8,7 @@ import storage from './storage'
 const persistConfig = {
   key: 'root',
   storage,
-  // whitelist: [''], // 只持久化某個 Slice
+  whitelist: [''], // 只持久化某個 Slice
 }
 
 const rootReducer = combineReducers({

@@ -1,5 +1,6 @@
 'use client'
 
+import { authApi } from '@/features/auth/api'
 import { clearAuth } from '@/lib/features/auth/authSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { Avatar, Menu, MenuItem } from '@mui/material'
@@ -22,10 +23,18 @@ export function UserMenu() {
     setAnchorEl(null)
   }
 
-  const handleLogout = () => {
-    dispatch(clearAuth())
-    handleClose()
-    router.push('/login')
+  const handleLogout = async () => {
+    try {
+      await authApi.logout()
+      dispatch(clearAuth())
+      handleClose()
+      router.push('/login')
+    } catch (error) {
+      // 即使 API 呼叫失敗，仍然清除本地狀態
+      dispatch(clearAuth())
+      handleClose()
+      router.push('/login')
+    }
   }
 
   return (
