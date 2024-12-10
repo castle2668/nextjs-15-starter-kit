@@ -1,14 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { persistReducer, persistStore } from 'redux-persist'
 
-import authReducer from './features/auth/authSlice'
-import snackbarReducer from './features/snackbar/snackbarSlice'
+import authReducer from '../features/auth/store/authSlice'
+import snackbarReducer from '../features/snackbar/store/snackbarSlice'
 import storage from './storage'
 
 const persistConfig = {
   key: 'root',
   storage,
-  // whitelist: [''], // 只持久化某個 Slice
+  whitelist: [''], // 只持久化某個 Slice
 }
 
 const rootReducer = combineReducers({

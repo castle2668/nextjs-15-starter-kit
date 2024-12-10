@@ -1,17 +1,18 @@
 'use client'
 
-import { authApi } from '@/features/auth/api'
-import { ApiError } from '@/lib/api'
-import { setAuth } from '@/lib/features/auth/authSlice'
-import { showSnackbar } from '@/lib/features/snackbar/snackbarSlice'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, TextField, Typography } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+
+import { authApi } from '@/features/auth/api'
+import { showSnackbar } from '@/features/snackbar/store/snackbarSlice'
+import { ApiError } from '@/lib/api'
+import { useAppDispatch } from '@/lib/hooks'
+
+import { setAuth } from '../store/authSlice'
 
 // 定義驗證 schema
 const loginSchema = z.object({

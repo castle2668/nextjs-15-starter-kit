@@ -1,16 +1,17 @@
 'use client'
 
-import { AuthProvider } from '@/components/AuthProvider'
-import { DashboardLayout } from '@/components/layouts/DashboardLayout'
-import { ThemeWrapper } from '@/components/layouts/ThemeWrapper'
-import { Snackbar } from '@/components/ui/Snackbar'
-import { persistor, store } from '@/lib/store'
+import './globals.css'
+
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import { Roboto } from 'next/font/google'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import './globals.css'
+import { DashboardLayout } from '@/components/layouts/DashboardLayout'
+import { ThemeWrapper } from '@/components/layouts/ThemeWrapper'
+import { AuthProvider } from '@/features/auth/components/AuthProvider'
+import { Snackbar } from '@/features/snackbar/components/Snackbar'
+import { persistor, store } from '@/lib/store'
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
