@@ -14,6 +14,14 @@ export interface LoginResponse {
   }
 }
 
+interface GetProfileResponse {
+  user: {
+    id: string
+    email: string
+    name: string
+  }
+}
+
 export const authApi = {
   login: (data: LoginRequest) =>
     fetchApi<LoginResponse>('/api/auth/login', {
@@ -28,7 +36,7 @@ export const authApi = {
     }),
 
   getProfile: () =>
-    fetchApi('/api/auth/profile', {
+    fetchApi<GetProfileResponse>('/api/auth/me', {
       method: 'GET',
     }),
 }
