@@ -1,6 +1,5 @@
 'use client'
 
-import { useAppSelector } from '@/lib/hooks'
 import { AppBar, Box, Toolbar } from '@mui/material'
 
 import { ThemeToggle } from './ThemeWrapper'

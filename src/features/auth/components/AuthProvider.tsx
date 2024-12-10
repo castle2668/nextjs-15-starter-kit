@@ -1,10 +1,12 @@
 'use client'
 
-import { authApi } from '@/features/auth/api'
-import { setAuth } from '@/lib/features/auth/authSlice'
-import { useAppDispatch } from '@/lib/hooks'
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
+
+import { authApi } from '@/features/auth/api'
+import { useAppDispatch } from '@/lib/hooks'
+
+import { setAuth } from '../store/authSlice'
 
 // 用戶登入成功 → 獲得 token
 // 頁面重新整理 → AuthProvider 檢查到 token

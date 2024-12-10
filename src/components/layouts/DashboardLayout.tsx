@@ -1,7 +1,5 @@
 'use client'
 
-import { useAppSelector } from '@/lib/hooks'
-import { cn } from '@/lib/utils'
 import CodeIcon from '@mui/icons-material/Code'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import ExtensionIcon from '@mui/icons-material/Extension'
@@ -11,7 +9,6 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import SettingsIcon from '@mui/icons-material/Settings'
 import TerminalIcon from '@mui/icons-material/Terminal'
 import {
-  Avatar,
   Box,
   Drawer,
   List,
@@ -21,6 +18,9 @@ import {
   ListItemText,
 } from '@mui/material'
 import { ReactNode } from 'react'
+
+import { useAppSelector } from '@/lib/hooks'
+import { cn } from '@/lib/utils'
 
 import { Header } from './Header'
 import { UserMenu } from './UserMenu'
