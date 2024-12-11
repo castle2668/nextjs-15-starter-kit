@@ -27,7 +27,7 @@ const authSlice = createSlice({
     ) => {
       // access token 存在普通 cookie
       Cookies.set('access_token', action.payload.accessToken, {
-        expires: 1 / 24 / 60, // 1分鐘
+        expires: 1 / 24, // 1 小時
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         path: '/',

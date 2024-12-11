@@ -49,11 +49,12 @@ async function requestInterceptor(url: string, options: FetchOptions) {
 // 響應攔截器: 處理 token 過期與更新
 async function responseInterceptor(response: Response) {
   if (response.status === 401) {
-    // 檢查是否為 token 過期
     const errorData = await response.json()
+
+    // 檢查是否為 token 過期
     if (errorData.code === 'TOKEN_EXPIRED') {
       try {
-        // 呼叫 refresh token API
+        // 用 refresh token 換新的 access token
         const newTokens = await fetchApi<RefreshTokenResponse>(
           '/api/auth/refresh',
           {
@@ -66,26 +67,22 @@ async function responseInterceptor(response: Response) {
         store.dispatch(
           setAuth({
             accessToken: newTokens.accessToken,
-            refreshToken: newTokens.refreshToken,
             user: store.getState().auth.user!,
           })
         )
 
         // 重試原本的請求
-        const retryResponse = await fetch(response.url, {
+        return fetch(response.url, {
           ...response,
           headers: {
             ...response.headers,
             Authorization: `Bearer ${newTokens.accessToken}`,
           },
         })
-
-        return retryResponse
-      } catch (error) {
-        // refresh token 也過期，需要重新登入
+      } catch {
+        // 如果 refresh token 也過期，才需要重新登入
         store.dispatch(clearAuth())
         window.location.href = '/login'
-        throw error
       }
     }
   }
