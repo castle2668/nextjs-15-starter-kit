@@ -1,28 +1,10 @@
+// 認證相關的 API 呼叫封裝
 import { fetchApi } from '@/lib/api'
 
-export interface LoginRequest {
-  email: string
-  password: string
-}
-
-export interface LoginResponse {
-  token: string
-  user: {
-    id: string
-    email: string
-    name: string
-  }
-}
-
-interface GetProfileResponse {
-  user: {
-    id: string
-    email: string
-    name: string
-  }
-}
+import type { GetProfileResponse, LoginRequest, LoginResponse } from './types'
 
 export const authApi = {
+  // 登入 API
   login: (data: LoginRequest) =>
     fetchApi<LoginResponse>('/api/auth/login', {
       method: 'POST',
@@ -30,11 +12,13 @@ export const authApi = {
       skipAuth: true,
     }),
 
+  // 登出 API
   logout: () =>
     fetchApi('/api/auth/logout', {
       method: 'POST',
     }),
 
+  // 取得個人資料 API
   getProfile: () =>
     fetchApi<GetProfileResponse>('/api/auth/me', {
       method: 'GET',

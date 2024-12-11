@@ -3,33 +3,37 @@
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 
-import { authApi } from '@/features/auth/api'
 import { useAppDispatch } from '@/lib/hooks'
 
+import { authApi } from '../api'
 import { setAuth } from '../store/authSlice'
+import type { GetProfileResponse } from '../types'
 
-// 用戶登入成功 → 獲得 token
-// 頁面重新整理 → AuthProvider 檢查到 token
-// 呼叫 /api/auth/me 獲取最新的用戶資訊
-// 更新 Redux store
+// 應用程式啟動時的認證狀態初始化
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    async function initAuth() {
-      const token = Cookies.get('token')
-      if (token) {
-        try {
-          const { user } = await authApi.getProfile()
-          dispatch(setAuth({ token, user }))
-        } catch (error) {
-          console.error('Failed to fetch user info:', error)
-          Cookies.remove('token')
-        }
-      }
+    // 頁面重新整理時，從 cookie 恢復認證狀態
+    const accessToken = Cookies.get('access_token')
+    // 如果有 token，呼叫 API 取得使用者資料
+    if (accessToken) {
+      authApi
+        .getProfile()
+        .then((response: GetProfileResponse) => {
+          // 更新 Redux store 中的認證狀態
+          dispatch(
+            setAuth({
+              accessToken,
+              user: response.user,
+            })
+          )
+        })
+        .catch(() => {
+          // 如果 API 呼叫失敗，移除 cookie
+          Cookies.remove('access_token')
+        })
     }
-
-    initAuth()
   }, [dispatch])
 
   return <>{children}</>

@@ -1,24 +1,53 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+import { verifyToken } from './app/api/auth/_db'
+
+// 不需要驗證的 API 路徑
+const PUBLIC_API_PATHS = ['/api/auth/login', '/api/auth/refresh']
+
 export function middleware(request: NextRequest) {
-  // 從 cookie 或 localStorage 取得 token
-  const token = request.cookies.get('token')?.value
+  const { pathname } = request.nextUrl
 
-  // 如果沒有 token 且不是在登入頁面，重定向到登入頁面
-  if (!token && !request.nextUrl.pathname.startsWith('/login')) {
-    return NextResponse.redirect(new URL('/login', request.url))
+  // API 路由的處理: 檢查 API 請求的 token 驗證
+  if (pathname.startsWith('/api')) {
+    // 跳過不需要驗證的 API 路徑
+    if (PUBLIC_API_PATHS.includes(pathname)) {
+      return NextResponse.next()
+    }
+
+    const authHeader = request.headers.get('authorization')
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json(
+        { message: 'No token provided', code: 'NO_TOKEN' },
+        { status: 401 }
+      )
+    }
+
+    const token = authHeader.split(' ')[1]
+    if (!verifyToken(token, 'access')) {
+      return NextResponse.json(
+        { message: 'Token expired', code: 'TOKEN_EXPIRED' },
+        { status: 401 }
+      )
+    }
   }
+  // 頁面路由的處理: 檢查是否需要認證
+  else {
+    const token = request.cookies.get('access_token')?.value
 
-  // 如果有 token 且在登入頁面，重定向到首頁
-  if (token && request.nextUrl.pathname.startsWith('/login')) {
-    return NextResponse.redirect(new URL('/', request.url))
+    if (!token && !pathname.startsWith('/login')) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+
+    if (token && pathname.startsWith('/login')) {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
   }
 
   return NextResponse.next()
 }
 
-// 配置需要進行驗證的路徑
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/api/:path*', '/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }

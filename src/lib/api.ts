@@ -1,3 +1,4 @@
+// API 請求的核心邏輯
 import Cookies from 'js-cookie'
 
 import { showSnackbar } from '@/features/snackbar/store/snackbarSlice'
@@ -11,22 +12,26 @@ interface FetchOptions extends RequestInit {
   skipAuth?: boolean // e.g. 是否跳過認證
 }
 
-// 請求攔截器
+interface RefreshTokenResponse {
+  accessToken: string
+  refreshToken: string
+}
+
+// 請求攔截器: 自動加入 token 到請求標頭
 async function requestInterceptor(url: string, options: FetchOptions) {
   const {
-    // baseURL = process.env.NEXT_PUBLIC_API_URL,
-    baseURL = '', // 本地 API 不需要 baseURL
+    baseURL = '', // 本地 API 不需要 baseURL，但保留彈性
     skipAuth = false,
     ...init
   } = options
 
-  // 準備 headers
   const headers = new Headers(init.headers)
   headers.set('Content-Type', 'application/json')
 
   // 如果需要認證，加入 token
   if (!skipAuth) {
-    const token = Cookies.get('token')
+    const token =
+      store.getState().auth.accessToken || Cookies.get('access_token')
     if (token) {
       headers.set('Authorization', `Bearer ${token}`)
     }
@@ -41,13 +46,58 @@ async function requestInterceptor(url: string, options: FetchOptions) {
   }
 }
 
-// 響應攔截器
+// 響應攔截器: 處理 token 過期與更新
 async function responseInterceptor(response: Response) {
+  if (response.status === 401) {
+    // 檢查是否為 token 過期
+    const errorData = await response.json()
+    if (errorData.code === 'TOKEN_EXPIRED') {
+      try {
+        // 呼叫 refresh token API
+        const newTokens = await fetchApi<RefreshTokenResponse>(
+          '/api/auth/refresh',
+          {
+            method: 'POST',
+            skipAuth: true, // 跳過 token 驗證
+          }
+        )
+
+        // 更新 Redux store
+        store.dispatch(
+          setAuth({
+            accessToken: newTokens.accessToken,
+            refreshToken: newTokens.refreshToken,
+            user: store.getState().auth.user!,
+          })
+        )
+
+        // 重試原本的請求
+        const retryResponse = await fetch(response.url, {
+          ...response,
+          headers: {
+            ...response.headers,
+            Authorization: `Bearer ${newTokens.accessToken}`,
+          },
+        })
+
+        return retryResponse
+      } catch (error) {
+        // refresh token 也過期，需要重新登入
+        store.dispatch(clearAuth())
+        window.location.href = '/login'
+        throw error
+      }
+    }
+  }
+
   // 檢查是否需要重新整理 token
   const newToken = response.headers.get('X-New-Token')
   if (newToken) {
     store.dispatch(
-      setAuth({ token: newToken, user: store.getState().auth.user! })
+      setAuth({
+        accessToken: newToken,
+        user: store.getState().auth.user!,
+      })
     )
   }
 
@@ -135,6 +185,7 @@ export class ApiError extends Error {
   }
 }
 
+// 統一的 API 請求函式
 export async function fetchApi<T>(
   url: string,
   options: FetchOptions = {}

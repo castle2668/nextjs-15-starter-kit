@@ -1,22 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 
-interface User {
-  id: string
-  email: string
-  name: string
-}
-
-// 定義狀態的介面
-interface AuthState {
-  user: User | null
-  isAuthenticated: boolean
-}
+import type { AuthState, User } from '../types'
 
 // 初始狀態
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
+  accessToken: null,
+  refreshToken: null,
 }
 
 // 創建 slice
@@ -24,25 +16,32 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    // 設置登入狀態
-    setAuth: (state, action: PayloadAction<{ token: string; user: User }>) => {
-      // 將 token 存在 cookie 中
-      Cookies.set('token', action.payload.token, {
-        expires: 7, // 7天後過期
-        secure: process.env.NODE_ENV === 'production', // 生產環境才使用 secure
+    // 設置認證狀態，同時更新 cookie
+    setAuth: (
+      state,
+      action: PayloadAction<{
+        accessToken: string
+        refreshToken?: string
+        user: User
+      }>
+    ) => {
+      // access token 存在普通 cookie
+      Cookies.set('access_token', action.payload.accessToken, {
+        expires: 1 / 24 / 60, // 1分鐘
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
+        path: '/',
       })
-
-      // 用戶資訊存在 Redux 中
+      state.accessToken = action.payload.accessToken
+      state.refreshToken = action.payload.refreshToken ?? state.refreshToken
       state.user = action.payload.user
       state.isAuthenticated = true
     },
-    // 清除登入狀態
+    // 清除認證狀態，同時清除 cookie
     clearAuth: state => {
-      // 清除 cookie 中的 token
-      Cookies.remove('token')
-
-      // 清除 Redux 中的用戶資訊
+      Cookies.remove('access_token')
+      state.accessToken = null
+      state.refreshToken = null
       state.user = null
       state.isAuthenticated = false
     },
