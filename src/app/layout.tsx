@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-TW">
+    <html lang="en">
       <body id="__next" className={roboto.variable}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
