@@ -39,7 +39,12 @@ export function LoginForm() {
     setIsSubmitting(true)
     try {
       const response = await authApi.login(data)
-      dispatch(setAuth({ token: response.token, user: response.user }))
+      dispatch(
+        setAuth({
+          accessToken: response.accessToken,
+          user: response.user,
+        })
+      )
       dispatch(showSnackbar({ message: '登入成功!', severity: 'success' }))
       router.push('/')
     } catch (error) {

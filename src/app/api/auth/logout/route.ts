@@ -1,15 +1,33 @@
+// 處理登出
+import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-// 模擬登出 API
+import { db } from '../_db'
+
 export async function POST(request: Request) {
   try {
-    // 模擬 API 延遲
-    await new Promise(resolve => setTimeout(resolve, 500))
+    const cookieStore = await cookies()
+    const refreshToken = cookieStore.get('refresh_token')?.value
 
-    // 回傳成功的響應
-    return NextResponse.json({ message: '登出成功' })
+    if (refreshToken) {
+      // 取得對應的 token pair
+      const tokens = db.tokens.get(refreshToken)
+      if (tokens) {
+        // 將所有相關 token 加入黑名單
+        db.blacklist.add(refreshToken)
+        db.blacklist.add(tokens.accessToken)
+        // 從資料庫移除
+        db.tokens.delete(refreshToken)
+      }
+    }
+
+    const response = NextResponse.json({ message: '登出成功' })
+
+    // 清除 refresh token cookie
+    response.cookies.delete('refresh_token')
+
+    return response
   } catch (error) {
-    // 回傳 500 錯誤
     return NextResponse.json({ message: '伺服器錯誤' }, { status: 500 })
   }
 }
