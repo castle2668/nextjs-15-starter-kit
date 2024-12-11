@@ -26,7 +26,6 @@ export interface GetProfileResponse {
 // Redux Store 中認證狀態的結構
 export interface AuthState {
   user: User | null
-  isAuthenticated: boolean
   accessToken: string | null
   refreshToken: string | null
 }

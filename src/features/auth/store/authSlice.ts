@@ -6,7 +6,6 @@ import type { AuthState, User } from '../types'
 // 初始狀態
 const initialState: AuthState = {
   user: null,
-  isAuthenticated: false,
   accessToken: null,
   refreshToken: null,
 }
@@ -35,7 +34,6 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken
       state.refreshToken = action.payload.refreshToken ?? state.refreshToken
       state.user = action.payload.user
-      state.isAuthenticated = true
     },
     // 清除認證狀態，同時清除 cookie
     clearAuth: state => {
@@ -43,7 +41,6 @@ const authSlice = createSlice({
       state.accessToken = null
       state.refreshToken = null
       state.user = null
-      state.isAuthenticated = false
     },
   },
 })

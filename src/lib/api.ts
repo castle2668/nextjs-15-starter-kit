@@ -72,13 +72,17 @@ async function responseInterceptor(response: Response) {
         )
 
         // 重試原本的請求
-        return fetch(response.url, {
+        const retryResponse = await fetch(response.url, {
           ...response,
           headers: {
-            ...response.headers,
+            ...Object.fromEntries(response.headers.entries()),
             Authorization: `Bearer ${newTokens.accessToken}`,
           },
         })
+
+        // 解析回應
+        const retryData = await retryResponse.json()
+        return retryData // 直接返回解析後的資料
       } catch {
         // 如果 refresh token 也過期，才需要重新登入
         store.dispatch(clearAuth())
@@ -124,7 +128,7 @@ async function responseInterceptor(response: Response) {
           store.dispatch(clearAuth())
           store.dispatch(
             showSnackbar({
-              message: '登入已過期，請重新登入',
+              message: '登入已過期，請���新登入',
               severity: 'error',
             })
           )

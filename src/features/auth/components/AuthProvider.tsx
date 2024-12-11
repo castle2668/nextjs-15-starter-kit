@@ -23,6 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // 只會執行一次的初始化邏輯
     const accessToken = Cookies.get('access_token')
+
     if (accessToken) {
       // 只會呼叫一次
       authApi
