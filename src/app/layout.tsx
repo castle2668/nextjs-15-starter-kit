@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import { DashboardLayout } from '@/components/layouts/DashboardLayout'
-import { ThemeWrapper } from '@/components/layouts/ThemeWrapper'
+import { AppThemeProvider } from '@/components/theme/AppThemeProvider'
 import { AuthProvider } from '@/features/auth/components/AuthProvider'
 import { Snackbar } from '@/features/snackbar/components/Snackbar'
 import { persistor, store } from '@/lib/store'
@@ -31,14 +31,14 @@ export default function RootLayout({
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-              <ThemeWrapper>
+              <AppThemeProvider>
                 <AuthProvider>
                   <DashboardLayout>
                     {children}
                     <Snackbar />
                   </DashboardLayout>
                 </AuthProvider>
-              </ThemeWrapper>
+              </AppThemeProvider>
             </AppRouterCacheProvider>
           </PersistGate>
         </Provider>

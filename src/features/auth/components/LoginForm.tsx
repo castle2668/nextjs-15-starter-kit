@@ -48,10 +48,8 @@ export function LoginForm() {
       dispatch(showSnackbar({ message: '登入成功!', severity: 'success' }))
       router.push('/')
     } catch (error) {
-      if (error instanceof ApiError) {
-        dispatch(
-          showSnackbar({ message: error.data.message, severity: 'error' })
-        )
+      if (error instanceof ApiError && error.status === 401) {
+        dispatch(showSnackbar({ message: '帳號或密碼錯誤', severity: 'error' }))
       } else {
         dispatch(
           showSnackbar({ message: '登入失敗，請稍後再試', severity: 'error' })

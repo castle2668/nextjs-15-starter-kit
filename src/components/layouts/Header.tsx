@@ -1,8 +1,6 @@
-'use client'
-
 import { AppBar, Box, Toolbar } from '@mui/material'
 
-import { ThemeToggle } from './ThemeWrapper'
+import { ThemeToggle } from '../theme/ThemeToggle'
 
 export function Header() {
   return (
