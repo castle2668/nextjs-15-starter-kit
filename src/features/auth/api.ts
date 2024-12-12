@@ -9,7 +9,6 @@ export const authApi = {
     fetchApi<LoginResponse>('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify(data),
-      skipAuth: true,
     }),
 
   // 登出 API
@@ -20,7 +19,7 @@ export const authApi = {
 
   // 取得個人資料 API
   getProfile: () =>
-    fetchApi<GetProfileResponse>('/api/auth/me', {
+    fetchApi<GetProfileResponse>('/api/auth/profile', {
       method: 'GET',
     }),
 }

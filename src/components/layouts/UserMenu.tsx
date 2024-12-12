@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import { authApi } from '@/features/auth/api'
-import { clearAuth } from '@/features/auth/store/authSlice'
+import { clearUser } from '@/features/auth/store/userSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 
 export function UserMenu() {
-  const user = useAppSelector(state => state.auth.user)
+  const user = useAppSelector(state => state.user.user)
   const dispatch = useAppDispatch()
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -27,12 +27,12 @@ export function UserMenu() {
   const handleLogout = async () => {
     try {
       await authApi.logout()
-      dispatch(clearAuth())
+      dispatch(clearUser())
       handleClose()
       router.push('/login')
     } catch (error) {
       // 即使 API 呼叫失敗，仍然清除本地狀態
-      dispatch(clearAuth())
+      dispatch(clearUser())
       handleClose()
       router.push('/login')
     }

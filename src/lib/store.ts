@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { persistReducer, persistStore } from 'redux-persist'
 
-import authReducer from '../features/auth/store/authSlice'
+import userReducer from '../features/auth/store/userSlice'
 import snackbarReducer from '../features/snackbar/store/snackbarSlice'
 import storage from './storage'
 
@@ -12,7 +12,7 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-  auth: authReducer,
+  user: userReducer,
   snackbar: snackbarReducer,
 })
 

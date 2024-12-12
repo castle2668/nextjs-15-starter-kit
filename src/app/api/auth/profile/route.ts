@@ -1,4 +1,3 @@
-// 處理取得個人資料
 import { NextResponse } from 'next/server'
 
 const MOCK_USER = {
@@ -7,9 +6,8 @@ const MOCK_USER = {
   name: '測試用戶',
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    // 模擬 API 延遲
     await new Promise(resolve => setTimeout(resolve, 500))
 
     return NextResponse.json({

@@ -12,7 +12,7 @@ import { showSnackbar } from '@/features/snackbar/store/snackbarSlice'
 import { ApiError } from '@/lib/api'
 import { useAppDispatch } from '@/lib/hooks'
 
-import { setAuth } from '../store/authSlice'
+import { setUser } from '../store/userSlice'
 
 // 定義驗證 schema
 const loginSchema = z.object({
@@ -40,8 +40,7 @@ export function LoginForm() {
     try {
       const response = await authApi.login(data)
       dispatch(
-        setAuth({
-          accessToken: response.accessToken,
+        setUser({
           user: response.user,
         })
       )

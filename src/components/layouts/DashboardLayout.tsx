@@ -53,7 +53,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
 }
 
 export function DashboardLayout({ children }: { children: ReactNode }) {
-  const user = useAppSelector(state => state.auth.user)
+  const user = useAppSelector(state => state.user.user)
 
   if (!user) {
     return <AuthLayout>{children}</AuthLayout>

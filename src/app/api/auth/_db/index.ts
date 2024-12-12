@@ -1,45 +1,56 @@
-interface TokenPair {
+import * as jose from 'jose'
+
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || 'your-development-secret'
+)
+
+export interface TokenPair {
   accessToken: string
   refreshToken: string
   userId: string
-  createdAt: number
 }
 
-// 模擬資料庫
-export const db = {
-  tokens: new Map<string, TokenPair>(), // refreshToken => TokenPair
-  blacklist: new Set<string>(), // 儲存已失效的 token
-}
+// 產生 token pair
+export async function generateTokens(userId: string): Promise<TokenPair> {
+  const accessToken = await new jose.SignJWT({ userId, type: 'access' })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime('1h')
+    .sign(JWT_SECRET)
 
-// 產生 token 的輔助函式
-export function generateTokens(userId: string): TokenPair {
+  const refreshToken = await new jose.SignJWT({ userId, type: 'refresh' })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime('7d')
+    .sign(JWT_SECRET)
+
   return {
-    accessToken: `access_${userId}_${Date.now()}`,
-    refreshToken: `refresh_${userId}_${Date.now()}`,
+    accessToken,
+    refreshToken,
     userId,
-    createdAt: Date.now(),
   }
 }
 
-// 驗證 token 的輔助函式
-export function verifyToken(
+// 驗證 token
+export async function verifyToken(
   token: string,
   type: 'access' | 'refresh'
-): boolean {
-  if (db.blacklist.has(token)) return false
+): Promise<boolean> {
+  try {
+    const { payload } = await jose.jwtVerify(token, JWT_SECRET)
 
-  // 檢查格式
-  const parts = token.split('_')
-  if (parts.length !== 3 || parts[0] !== type) return false
-
-  const timestamp = parseInt(parts[2])
-  const now = Date.now()
-
-  // access token 1分鐘過期
-  if (type === 'access') {
-    return now - timestamp < 1000 * 60
+    return payload.type === type
+  } catch (error) {
+    return false
   }
+}
 
-  // refresh token 7天過期
-  return now - timestamp < 1000 * 60 * 60 * 24 * 7
+// 從 token 解析出 userId
+export async function getUserIdFromToken(
+  token: string
+): Promise<string | null> {
+  try {
+    const { payload } = await jose.jwtVerify(token, JWT_SECRET)
+    return payload.userId as string
+  } catch {
+    return null
+  }
 }

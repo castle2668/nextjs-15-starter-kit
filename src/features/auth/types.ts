@@ -22,10 +22,3 @@ export interface LoginResponse {
 export interface GetProfileResponse {
   user: User
 }
-
-// Redux Store 中認證狀態的結構
-export interface AuthState {
-  user: User | null
-  accessToken: string | null
-  refreshToken: string | null
-}

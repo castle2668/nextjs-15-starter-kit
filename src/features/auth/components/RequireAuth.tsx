@@ -5,7 +5,7 @@ import { Box, CircularProgress } from '@mui/material'
 import { useAppSelector } from '@/lib/hooks'
 
 export function RequireAuth({ children }: { children: React.ReactNode }) {
-  const user = useAppSelector(state => state.auth.user)
+  const user = useAppSelector(state => state.user.user)
 
   if (!user) {
     return (
