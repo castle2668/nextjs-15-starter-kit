@@ -7,12 +7,12 @@ Welcome to the Next.js 15 Starter Kit repository! This starter template integrat
 ## 🚀 What's Included
 
 - Next.js 15
-- React 18 (Will upgrade to React 19 when stable)
+- React 19
 - Material UI v6
 - Tailwind CSS v3
 - TypeScript 5
 - Redux Toolkit
-- ESLint 8 (Will upgrade to ESLint 9 when React 19 is stable)
+- ESLint 9
 - Prettier 3
 - Light & Dark Mode
 - Git Hooks (Husky + lint-staged + commitlint)
